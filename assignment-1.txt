@@ -1,0 +1,64 @@
+Assignment:
+
+My login name: vagrant
+My Home directory: /home/vagrant
+
+Directory Structure (Subdirectories needed):
+- code
+- tests
+- personal
+- misc
+
+Tasks:
+
+a. Navigate to the 'tests' directory using its absolute pathname.
+
+Command: cd /home/vagrant/tests
+
+b. Navigate to the 'tests' directory using its relative pathname.
+
+Command: cd tests
+
+c. Use the echo command to create a file named 'fileA' with the text content 'Hello A' in the 'misc' directory.
+
+Command: echo 'Hello A' > /home/vagrant/misc/fileA
+
+d. Create an empty file named 'fileB' in the 'misc' directory and then populate it with dummy content.
+
+Command: touch /home/vagrant/misc/fileB && echo "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dapibus purus et augue fringilla, vel sollicitudin neque consequat. Nam vel justo non leo laoreet convallis." > /home/vagrant/misc/fileB
+
+e. Copy the contents of 'fileA' into a new file named 'fileC'.
+
+Command: cp /home/vagrant/misc/fileA /home/vagrant/misc/fileC
+
+f. Move the contents of 'fileB' into a new file named 'fileD'.
+
+Command: cp /home/vagrant/misc/fileB /home/vagrant/misc/fileD && echo -n > /home/vagrant/misc/fileB
+
+g. Create a tar archive called 'misc.tar' for the contents of the 'misc' directory.
+
+Command: tar -cf /home/vagrant/misc/misc.tar -C /home/vagrant/misc .
+
+h. Compress the tar archive to create a 'misc.tar.gz' file.
+
+Command: gzip /home/vagrant/misc/misc.tar
+
+i. Create a new user and enforce a password change upon their first login.
+
+Command: sudo useradd -m -s /bin/bash newuser && sudo passwd newuser && sudo passwd -e newuser
+
+j. Lock a user's password to prevent login access.
+
+Command: sudo passwd -l username
+
+k. Create a user with no login shell access.
+
+Command: sudo useradd -m -s /bin/false newuser
+
+l. Disable password-based authentication for SSH.
+
+Command: sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config && sudo systemctl restart sshd
+
+m. Disable root login for SSH.
+
+Command: sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config && sudo systemctl restart sshd
