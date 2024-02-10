@@ -24,7 +24,7 @@ cd /home/vagrant/tests
 ### b. Navigate to the 'tests' directory using its relative pathname.
 
 ```bash
-cd tests
+cd ./tests
 ```
 ![Screenshot 3](./screenshots/relative-pathname.png)
 
