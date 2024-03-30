@@ -1,0 +1,9 @@
+# This file stores commonly used variables for the Ansible playbooks
+
+repo_url: https://github.com/VictortheGreat7/wp_pusher_assignment.git
+repo_dest: /tmp/wp_pusher_assignment/
+website_doc_root: /var/www/html/
+apache_package_name:
+  Debian: apache2
+  RedHat: httpd
+apache_service_name: "{{ 'apache2' if ansible_os_family == 'Debian' else 'httpd' }}"

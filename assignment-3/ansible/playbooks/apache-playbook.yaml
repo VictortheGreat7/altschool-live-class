@@ -1,64 +1,59 @@
-- name: Clone Git repository on master node and checkif apache is installed
+- name: Clone Git repository, check if Apache is installed (master)
   hosts: master
   tasks:
+    - name: Include variables from main.yaml
+      include_vars: vars/main.yaml
+
     - name: Clone Git repository
       git:
-        repo: https://github.com/VictortheGreat7/wp_pusher_assignment.git
-        dest: /tmp/wp_pusher_assignment
+        repo: "{{ repo_url }}"
+        dest: "{{ repo_dest }}"
 
-    - name: Ensure Apache is installed and running on master node
-      apt:
-        name: apache2
+    - name: Ensure Apache is installed on master node
+      package:
+        name: "{{ apache_package_name[ansible_os_family] }}"
         state: present
       tags: apache
 
     - name: Ensure apache website directory exists
       file:
-        path: /var/www/html
+        path: "{{ website_doc_root }}"
         state: directory
 
     - name: Copy website files from tmp to desired website location
-      command: cp -r /tmp/wp_pusher_assignment /var/www/html/
+      command: cp -r "{{ repo_dest }}" "{{ website_doc_root }}"
 
-- name: Copy files to slave nodes
+- name: Copy website files to slave nodes (if applicable)
   hosts: slaves
   tasks:
-    - name: Ensure Apache is installed on Ubuntu node
-      apt:
-        name: apache2
-        state: present
-      when: ansible_os_family == "Debian"
-      tags: apache
+    - name: Include variables from main.yaml
+      include_vars: vars/main.yaml
 
-    - name: Ensure Apache is installed on CentOS node
-      yum:
-        name: httpd
+    - name: Ensure the appropriate Apache package is installed on slave nodes
+      package:
+        name: "{{ apache_package_name[ansible_os_family] }}"
         state: present
-      when: ansible_os_family == "RedHat"
       tags: apache
 
     - name: Ensure apache website directory exists
       file:
-        path: /var/www/html
+        path: "{{ website_doc_root }}"
         state: directory
 
     - name: Copy website files from master to slave nodes
       synchronize:
-        src: /tmp/wp_pusher_assignment/
-        dest: /var/www/html
+        src: "{{ repo_dest }}"
+        dest: "{{ website_doc_root }}"
 
 
-- name: Deploy website on all nodes with Apache
+- name: Start Apache service on all nodes (if installed)
   hosts: all
   tasks:
-    - name: Start Apache service on Ubuntu nodes
-      service:
-        name: apache2
-        state: started
-      when: ansible_os_family == "Debian"
+    - name: Include variables from main.yaml
+      include_vars: vars/main.yaml
 
-    - name: Start Apache service on CentOS node
+    - name: Start Apache service (if present)
       service:
-        name: httpd
+        name: "{{ apache_service_name }}"
         state: started
-      when: ansible_os_family == "RedHat"
+      tags: apache
