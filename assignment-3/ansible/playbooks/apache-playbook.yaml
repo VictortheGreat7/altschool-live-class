@@ -1,0 +1,64 @@
+- name: Clone Git repository on master node and checkif apache is installed
+  hosts: master
+  tasks:
+    - name: Clone Git repository
+      git:
+        repo: https://github.com/VictortheGreat7/wp_pusher_assignment.git
+        dest: /tmp/wp_pusher_assignment
+
+    - name: Ensure Apache is installed and running on master node
+      apt:
+        name: apache2
+        state: present
+      tags: apache
+
+    - name: Ensure apache website directory exists
+      file:
+        path: /var/www/html
+        state: directory
+
+    - name: Copy website files from tmp to desired website location
+      command: cp -r /tmp/wp_pusher_assignment /var/www/html/
+
+- name: Copy files to slave nodes
+  hosts: slaves
+  tasks:
+    - name: Ensure Apache is installed on Ubuntu node
+      apt:
+        name: apache2
+        state: present
+      when: ansible_os_family == "Debian"
+      tags: apache
+
+    - name: Ensure Apache is installed on CentOS node
+      yum:
+        name: httpd
+        state: present
+      when: ansible_os_family == "RedHat"
+      tags: apache
+
+    - name: Ensure apache website directory exists
+      file:
+        path: /var/www/html
+        state: directory
+
+    - name: Copy website files from master to slave nodes
+      synchronize:
+        src: /tmp/wp_pusher_assignment/
+        dest: /var/www/html
+
+
+- name: Deploy website on all nodes with Apache
+  hosts: all
+  tasks:
+    - name: Start Apache service on Ubuntu nodes
+      service:
+        name: apache2
+        state: started
+      when: ansible_os_family == "Debian"
+
+    - name: Start Apache service on CentOS node
+      service:
+        name: httpd
+        state: started
+      when: ansible_os_family == "RedHat"

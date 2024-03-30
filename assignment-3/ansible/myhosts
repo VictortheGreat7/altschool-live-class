@@ -1,0 +1,6 @@
+[master]
+localhost
+
+[slaves]
+ubuntu-ansible-slave
+centos-ansible-slave
