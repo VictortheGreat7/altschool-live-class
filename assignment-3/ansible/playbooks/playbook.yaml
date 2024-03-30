@@ -1,5 +1,0 @@
-- name: files
-  hosts: master
-  tasks:
-    - name: create a new file
-      command: cp -r /tmp/wp_pusher_assignment /var/www/html/
