@@ -1,0 +1,11 @@
+output "bucket_name" {
+  value = module.s3_bucket.bucket_name
+}
+
+output "cloudfront_distribution_domain" {
+  value = module.cloudfront.cloudfront_distribution_domain
+}
+
+output "certificate_arn" {
+  value = module.acm.certificate_arn
+}
