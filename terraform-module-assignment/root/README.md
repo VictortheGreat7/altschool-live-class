@@ -91,3 +91,6 @@ To clean up all the resources created by this project, run:
 ```sh
 terraform destroy
 ```
+
+## Infrastructure Diagram
+![AWS Infrastructure](s3-static-website.png)
