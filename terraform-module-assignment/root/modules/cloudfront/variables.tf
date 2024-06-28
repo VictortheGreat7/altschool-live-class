@@ -15,7 +15,7 @@ variable "default_root_object" {
   type        = string
 }
 
-variable "acm_certificate_arn" {
-  description = "The ARN of the ACM certificate for the CloudFront distribution"
-  type        = string
-}
+# variable "acm_certificate_arn" {
+#   description = "The ARN of the ACM certificate for the CloudFront distribution"
+#   type        = string
+# }

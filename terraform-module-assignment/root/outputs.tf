@@ -8,14 +8,18 @@ output "cloudfront_distribution_domain" {
   value = module.cloudfront.cloudfront_distribution_domain
 }
 
-output "cloudfront_hosted_zone_id" {
-  value = module.cloudfront.cloudfront_distribution_hosted_zone_id
-}
+# output "api_invocation_url" {
+#   value = module.api_gateway.api_endpoint
+# }
 
-output "certificate_arn" {
-  value = module.acm.certificate_arn
-}
+# output "cloudfront_hosted_zone_id" {
+#   value = module.cloudfront.cloudfront_distribution_hosted_zone_id
+# }
 
-output "route53_zone_id" {
-  value = module.route53.route53_zone_id
-}
+# output "certificate_arn" {
+#   value = module.acm.certificate_arn
+# }
+
+# output "route53_zone_id" {
+#   value = module.route53.route53_zone_id
+# }

@@ -3,7 +3,7 @@
 variable "region" {
   description = "The AWS region"
   type        = string
-  default     = "us-east-1"
+  default     = "ca-central-1"
 }
 
 variable "domain_name" {

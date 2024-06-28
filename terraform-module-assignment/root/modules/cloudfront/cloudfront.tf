@@ -40,18 +40,12 @@ resource "aws_cloudfront_distribution" "this" {
   }
 
   viewer_certificate {
-    acm_certificate_arn            = var.acm_certificate_arn
-    ssl_support_method             = "sni-only"
+    cloudfront_default_certificate = true
     minimum_protocol_version       = "TLSv1.2_2021"
   }
 
-  aliases = [var.s3_bucket_domain_name]
 }
 
 resource "aws_cloudfront_origin_access_identity" "this" {
   comment = "Origin Access Identity for S3 bucket"
-}
-
-output "cloudfront_domain_name" {
-  value = aws_cloudfront_distribution.this.domain_name
 }

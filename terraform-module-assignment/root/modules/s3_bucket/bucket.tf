@@ -16,6 +16,34 @@ resource "aws_s3_bucket_website_configuration" "this" {
   }
 }
 
+locals {
+  content_types = {
+    ".html" = "text/html",
+    ".css"  = "text/css",
+    ".js"   = "application/javascript",
+    ".png"  = "image/png",
+    ".jpg"  = "image/jpeg",
+    ".jpeg" = "image/jpeg",
+    ".svg"  = "image/svg+xml"
+    # Add more content types as needed
+  }
+}
+
+# Upload individual files to S3
+resource "aws_s3_object" "website_files" {
+  for_each = fileset("${path.root}/website", "**") # Assumes files are in a 'website' directory
+
+  bucket = aws_s3_bucket.this.bucket
+  key    = each.value
+  source = "${path.root}/website/${each.value}"
+  content_type = lookup(
+    local.content_types,
+    length(regexall("[.][^.]*$", each.value)) > 0 ? regexall("[.][^.]*$", each.value)[0] : "",
+    "application/octet-stream"
+  )
+}
+
+
 resource "aws_s3_bucket_policy" "this" {
   bucket = aws_s3_bucket.this.bucket
 
@@ -24,8 +52,10 @@ resource "aws_s3_bucket_policy" "this" {
     Statement = [
       {
         Effect = "Allow"
-        Principal = "*"
-        Action = "s3:GetObject"
+        Principal = {
+          AWS = var.origin_access_identity
+        }
+        Action   = "s3:GetObject"
         Resource = "${aws_s3_bucket.this.arn}/*"
       }
     ]
