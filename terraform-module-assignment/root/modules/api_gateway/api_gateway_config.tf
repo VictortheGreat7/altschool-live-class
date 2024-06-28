@@ -1,16 +1,34 @@
 # modules/api_gateway/api_gateway_config.tf
 
-# Create a deployment for the API
+# Create an API Gateway Deployment and Stage
 resource "aws_api_gateway_deployment" "api_deployment" {
-  depends_on = [aws_api_gateway_rest_api.api, aws_api_gateway_resource.root, aws_api_gateway_method.static_get, aws_api_gateway_integration.cloudfront_get, aws_api_gateway_method_response.static_get_response_200, aws_api_gateway_integration_response.static_get_integration_response_200]
   rest_api_id = aws_api_gateway_rest_api.api.id
+  stage_name  = var.stage_name
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  depends_on = [aws_api_gateway_integration.cloudfront_get]
 }
 
-# Create a stage for the deployment
-resource "aws_api_gateway_stage" "wonder-prod" {
-  deployment_id = aws_api_gateway_deployment.api_deployment.id
+resource "aws_api_gateway_stage" "api_stage" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
-  stage_name    = var.stage_name
+  stage_name    = aws_api_gateway_deployment.api_deployment.stage_name
+  deployment_id = aws_api_gateway_deployment.api_deployment.id
+}
 
-  description = "Production stage"
+# Create a Usage Plan
+resource "aws_api_gateway_usage_plan" "usage_plan" {
+  name = "StaticWebsiteUsagePlan"
+
+  api_stages {
+    api_id = aws_api_gateway_rest_api.api.id
+    stage  = aws_api_gateway_stage.api_stage.stage_name
+  }
+
+  throttle_settings {
+    burst_limit = 100
+    rate_limit  = 50
+  }
 }

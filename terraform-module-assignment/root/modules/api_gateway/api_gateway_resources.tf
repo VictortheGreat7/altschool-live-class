@@ -2,7 +2,6 @@
 resource "aws_api_gateway_rest_api" "api" {
   name        = "StaticWebsiteAPI"
   description = "API Gateway for the static website"
-
 }
 
 # Define the root resource
@@ -17,7 +16,6 @@ resource "aws_api_gateway_resource" "proxy" {
   parent_id   = aws_api_gateway_resource.root.id
   path_part   = "{proxy+}"
 }
-
 
 # Define a GET method on the root resource
 resource "aws_api_gateway_method" "static_get" {
@@ -39,7 +37,7 @@ resource "aws_api_gateway_integration" "cloudfront_get" {
 
   integration_http_method = "GET"
   type                    = "HTTP_PROXY"
-  uri                     = "https://${var.cloudfront_domain_name}/{proxy}"
+  uri                     = "https://${var.custom_domain_name}/{proxy}"
 
   request_parameters = {
     "integration.request.path.proxy" = "method.request.path.proxy"
@@ -71,18 +69,3 @@ resource "aws_api_gateway_integration_response" "static_get_integration_response
     "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
-
-# resource "aws_api_gateway_domain_name" "custom_domain" {
-#   domain_name              = var.custom_domain_name
-#   certificate_arn          = var.acm_certificate_arn
-#   security_policy          = "TLS_1_2"
-#   endpoint_configuration {
-#     types = ["REGIONAL"]
-#   }
-# }
-
-# resource "aws_api_gateway_base_path_mapping" "custom_domain_mapping" {
-#   api_id      = aws_api_gateway_rest_api.api.id
-#   domain_name = aws_api_gateway_domain_name.custom_domain.id
-#   stage_name  = aws_api_gateway_stage.prod.stage_name
-# }

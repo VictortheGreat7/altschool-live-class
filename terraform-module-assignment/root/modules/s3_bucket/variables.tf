@@ -5,7 +5,12 @@ variable "bucket_name" {
   type        = string
 }
 
-variable "origin_access_identity" {
-  description = "The origin access identity for the S3 bucket"
+# variable "origin_access_identity" {
+#   description = "The origin access identity for the S3 bucket"
+#   type        = string
+# }
+
+variable "account_id" {
+  description = "The AWS account ID"
   type        = string
 }

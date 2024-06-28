@@ -30,7 +30,13 @@ variable "validatation_complete" {
   type        = any
 }
 
+
 variable "certificate_arn" {
   description = "The ARN of the ACM certificate for the CloudFront distribution"
   type        = string
 }
+
+# variable "invoke_url" {
+#   description = "The invoke URL for the CloudFront distribution"
+#   type        = string
+# }
