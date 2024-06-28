@@ -13,6 +13,7 @@ module "cloudfront" {
   default_root_object   = "index.html"
   domain_name           = var.domain_name
   subdomain             = "login"
+  validatation_complete = module.acm.aws_acm_certificate_validation
   certificate_arn       = module.acm.certificate_arn
 }
 

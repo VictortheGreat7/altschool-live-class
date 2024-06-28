@@ -25,6 +25,11 @@ variable "default_root_object" {
   type        = string
 }
 
+variable "validatation_complete" {
+  description = "The validation complete flag for the CloudFront distribution"
+  type        = any
+}
+
 variable "certificate_arn" {
   description = "The ARN of the ACM certificate for the CloudFront distribution"
   type        = string

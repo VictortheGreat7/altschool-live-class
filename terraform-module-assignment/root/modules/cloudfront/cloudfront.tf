@@ -1,5 +1,9 @@
 # modules/cloudfront/cloudfront.tf
 
+locals {
+  certificate_arn = var.certificate_arn
+}
+
 resource "aws_cloudfront_distribution" "this" {
   origin {
     domain_name = var.s3_bucket_domain_name
@@ -42,10 +46,12 @@ resource "aws_cloudfront_distribution" "this" {
   }
 
   viewer_certificate {
-    acm_certificate_arn            = var.certificate_arn
+    acm_certificate_arn            = local.certificate_arn
     ssl_support_method             = "sni-only"
     minimum_protocol_version       = "TLSv1.2_2021"
   }
+
+  depends_on = [var.validatation_complete]
 
 }
 
