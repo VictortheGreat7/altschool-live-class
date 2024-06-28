@@ -1,9 +1,8 @@
-# modules/api_gateway/api_gateway_resources.tf
-
 # Define the REST API
 resource "aws_api_gateway_rest_api" "api" {
   name        = "StaticWebsiteAPI"
   description = "API Gateway for the static website"
+
 }
 
 # Define the root resource
@@ -13,23 +12,34 @@ resource "aws_api_gateway_resource" "root" {
   path_part   = "static"
 }
 
+resource "aws_api_gateway_resource" "proxy" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  parent_id   = aws_api_gateway_resource.root.id
+  path_part   = "{proxy+}"
+}
+
+
 # Define a GET method on the root resource
 resource "aws_api_gateway_method" "static_get" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
-  resource_id   = aws_api_gateway_resource.root.id
+  resource_id   = aws_api_gateway_resource.proxy.id
   http_method   = "GET"
   authorization = "NONE"
+
+  request_parameters = {
+    "method.request.path.proxy" = true
+  }
 }
 
-# Integrate the GET method with the S3 bucket
-resource "aws_api_gateway_integration" "s3_get" {
+# Integrate the GET method with CloudFront
+resource "aws_api_gateway_integration" "cloudfront_get" {
   rest_api_id = aws_api_gateway_rest_api.api.id
-  resource_id = aws_api_gateway_resource.root.id
+  resource_id = aws_api_gateway_resource.proxy.id
   http_method = aws_api_gateway_method.static_get.http_method
 
   integration_http_method = "GET"
-  type                    = "AWS_PROXY"
-  uri                     = "arn:aws:apigateway:${var.region}:s3:path/{proxy}"
+  type                    = "HTTP_PROXY"
+  uri                     = "https://${var.cloudfront_domain_name}/{proxy}"
 
   request_parameters = {
     "integration.request.path.proxy" = "method.request.path.proxy"
@@ -41,7 +51,7 @@ resource "aws_api_gateway_integration" "s3_get" {
 # Enable CORS on the GET method
 resource "aws_api_gateway_method_response" "static_get_response_200" {
   rest_api_id = aws_api_gateway_rest_api.api.id
-  resource_id = aws_api_gateway_resource.root.id
+  resource_id = aws_api_gateway_resource.proxy.id
   http_method = aws_api_gateway_method.static_get.http_method
   status_code = "200"
 
@@ -50,9 +60,10 @@ resource "aws_api_gateway_method_response" "static_get_response_200" {
   }
 }
 
+# Define the integration response
 resource "aws_api_gateway_integration_response" "static_get_integration_response_200" {
   rest_api_id = aws_api_gateway_rest_api.api.id
-  resource_id = aws_api_gateway_resource.root.id
+  resource_id = aws_api_gateway_resource.proxy.id
   http_method = aws_api_gateway_method.static_get.http_method
   status_code = "200"
 
@@ -60,3 +71,18 @@ resource "aws_api_gateway_integration_response" "static_get_integration_response
     "method.response.header.Access-Control-Allow-Origin" = "'*'"
   }
 }
+
+# resource "aws_api_gateway_domain_name" "custom_domain" {
+#   domain_name              = var.custom_domain_name
+#   certificate_arn          = var.acm_certificate_arn
+#   security_policy          = "TLS_1_2"
+#   endpoint_configuration {
+#     types = ["REGIONAL"]
+#   }
+# }
+
+# resource "aws_api_gateway_base_path_mapping" "custom_domain_mapping" {
+#   api_id      = aws_api_gateway_rest_api.api.id
+#   domain_name = aws_api_gateway_domain_name.custom_domain.id
+#   stage_name  = aws_api_gateway_stage.prod.stage_name
+# }

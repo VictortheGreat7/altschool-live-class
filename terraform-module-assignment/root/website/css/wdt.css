@@ -1,0 +1,310 @@
+/* Global Styles */
+
+* {
+    padding: 0;
+	margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+	height: 100%;
+	width: 100%;
+}
+
+/* Page Layout */
+
+.wrapper{
+	position: relative;
+	width: fit-content;
+	height: fit-content;
+	display: flex;
+	justify-content: center;
+	padding-block-start: 81px;
+    padding-block-end: 80px;
+    padding-inline: 140px;
+    gap: 120px;
+}
+
+.container {
+    width: fit-content;
+    height: fit-content;
+    border-radius: 6px;
+    background: #FFF;
+    box-shadow: 0px 4px 50px 0px hsla(224, 65%, 5%, 0.1);
+    padding: 40px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Components */
+
+.plan {
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    flex-direction: column;
+    padding-block-start: 124px;
+    padding-inline-end: 40px;
+
+    &>svg {
+        max-width: 77.333px;
+        max-height: 80px;
+    }
+}
+
+.plan_name {
+    color: var(--CL-Black, hsl(175, 100%, 2%));
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 50px; /* 125% */
+    letter-spacing: -0.8px;
+    max-width: 268px;
+    margin-block-start: 50px;
+    margin-block-end: 20px;
+}
+
+.description {
+    color: var(--CL-Grey, hsl(0, 0%, 45%));
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px; /* 156.25% */
+    max-width: 420px;
+}
+
+.description2 {
+    color: var(--CL-Grey, hsl(0, 0%, 45%));
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 25px; /* 156.25% */
+    display: none;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.other_input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &>input {
+        max-width: 500px;
+    }
+}
+
+/* Form Elements */
+
+label {
+    color: var(--Text-Headings, 	hsl(208, 96%, 10%));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 14px;
+    letter-spacing: 0.1px;
+
+    &~input {
+        color: var(--Text-Headings, 	hsl(208, 96%, 10%));
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+        letter-spacing: 0.2px;
+        height: 48px;
+        padding-inline-start: 16px;
+        border: 1.4px solid hsla(0, 0%, 94%, 1);
+        border-radius: 2px;
+
+        &:focus-visible {
+            border: 1px solid hsla(174, 62%, 47%, 1);
+            outline: 3px solid hsla(174, 62%, 47%, 0.06);
+        }
+        
+        &:hover {
+            border: 1px solid hsla(174, 62%, 47%, 1);
+            outline: 3px solid hsla(174, 62%, 47%, 0.06);
+        }
+    }
+}
+
+input {
+    margin-block-end: 30px;
+    background-image: url("../assets/images/form-filled-form-filled-u-angle-down.svg");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 24px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: 0.2px;
+}
+
+#dob {
+    background-image: url("../assets/images/form-filled-form-filled-ua-calendar-alt.svg");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 24px;
+}
+
+#password {
+    background-image: url("../assets/images/form-filled-form-filled-edit-show.svg");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 24px;
+}
+
+#firstName, #lastName, #weight, #height {
+    background-image: none;
+}
+
+button {
+    width: 500px;
+    height: 48px;
+    background: var(--CL-Green, 	hsl(174, 62%, 47%));
+    border: 0;
+    box-shadow: 0px 10px 40px hsla(0, 0%, 0%, 0.1);
+    margin-block-end: 16px;
+    color: var(--Basic-100, hsla(0, 0%, 100%, 1));
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--CL-Green-Hover, hsla(174, 62%, 47%, 0.9));
+    }
+}
+
+/* Footer */
+
+footer {
+    color: #000;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px; /* 178.571% */
+    display: flex;
+    justify-content: center;
+
+    &>a {
+        color: var(--CL-Green, hsla(174.4, 61.98%, 47.45%, 1));
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 25px;
+        text-decoration-line: underline;
+    }
+}
+
+footer.smaller_screen {
+    display: none;
+}
+
+/* Media Queries */
+
+@media(max-width:375.5px) {
+
+    /* Page Layout (for 375px screen) */
+
+    .wrapper{
+        flex-direction: column;
+        gap: 24px;
+        height: fit-content;
+        padding-inline: 24px;
+        padding-block-start: 30px;
+        padding-block-end: 64px;
+    }
+
+    .container {
+        font-family: Poppins;
+        padding-block-start: 24px;
+        padding-inline: 16px;
+        padding-block-end: 30px;
+        width: 100%;
+    }
+
+    /* Components (for 375px screen) */
+
+    .plan {
+        padding-block-start: 0px;
+        max-width: 295px;
+        margin-block-end: 16px;
+
+        &>svg {
+            max-width: 38.667px;
+            max-height: 40px;
+        }
+    }
+
+    .plan_name {
+        font-size: 30px;
+        margin-block-start: 40px;
+        margin-block-end: 12px;
+    }
+
+    .description {
+        display: none;
+    }
+
+    .description2 {
+        display: flex;
+        max-width: 295px;
+    }
+
+    .row {
+        gap: unset;
+        grid-template-columns: none;
+    }
+
+    .input {
+        max-width: 295px;
+    }
+
+    .other_input {
+        max-width: 295px;
+    }
+
+    /* Form Elements (for 375px screen) */
+
+    label {
+        display: flex;
+        max-width: fit-content;
+    }
+
+    input{
+        margin-block-end: 24px;
+        max-width: 295px;
+    }
+
+    button {
+        max-width: 295px;
+        margin-block-end: 0;
+    }
+
+    /* Footer (for 375px screen) */
+
+    footer.bigger_screen {
+        display: none;
+    }
+
+    footer.smaller_screen {
+        font-family: 'Poppins', sans-serif;
+        display: unset;
+        text-align: center;
+        width: 316px;
+    }
+}

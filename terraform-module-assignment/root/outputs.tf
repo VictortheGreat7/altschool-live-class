@@ -8,6 +8,10 @@ output "cloudfront_distribution_domain" {
   value = module.cloudfront.cloudfront_distribution_domain
 }
 
+output "domain_name_servers" {
+  value = module.route53.name_servers
+}
+
 # output "api_invocation_url" {
 #   value = module.api_gateway.api_endpoint
 # }

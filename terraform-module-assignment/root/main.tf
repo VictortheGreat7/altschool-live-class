@@ -11,6 +11,9 @@ module "cloudfront" {
   s3_bucket_origin_id   = module.s3_bucket.origin_id
   s3_bucket_domain_name = module.s3_bucket.bucket_regional_domain_name
   default_root_object   = "index.html"
+  domain_name           = var.domain_name
+  subdomain             = "login"
+  certificate_arn       = module.acm.certificate_arn
 }
 
 module "iam" {
@@ -27,15 +30,15 @@ module "iam" {
 #   cloudfront_domain_name = module.cloudfront.cloudfront_distribution_domain
 # }
 
-# module "acm" {
-#   source          = "./modules/acm"
-#   domain_name     = module.cloudfront.cloudfront_distribution_domain
-#   route53_zone_id = module.route53.route53_zone_id
-# }
+module "route53" {
+  source                 = "./modules/route53"
+  domain_name            = var.domain_name
+  subdomain              = "login"
+  cloudfront_domain_name = module.cloudfront.cloudfront_distribution_domain
+}
 
-# module "route53" {
-#   source      = "./modules/route53"
-#   domain_name = module.cloudfront.cloudfront_distribution_domain
-#   cloudfront_domain_name    = module.cloudfront.cloudfront_distribution_domain
-#   cloudfront_hosted_zone_id = module.cloudfront.cloudfront_distribution_hosted_zone_id
-# }
+module "acm" {
+  source          = "./modules/acm"
+  domain_name     = "login.${var.domain_name}"
+  route53_zone_id = module.route53.route53_zone_id
+}

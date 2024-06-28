@@ -6,6 +6,16 @@ variable "s3_bucket_origin_id" {
 }
 
 variable "s3_bucket_domain_name" {
+  description = "The S3 bucket domain name for the CloudFront distribution"
+  type        = string
+}
+
+variable "domain_name" {
+  description = "The custom domain name for the CloudFront distribution"
+  type        = string
+}
+
+variable "subdomain" {
   description = "The custom domain name for the CloudFront distribution"
   type        = string
 }
@@ -15,7 +25,7 @@ variable "default_root_object" {
   type        = string
 }
 
-# variable "acm_certificate_arn" {
-#   description = "The ARN of the ACM certificate for the CloudFront distribution"
-#   type        = string
-# }
+variable "certificate_arn" {
+  description = "The ARN of the ACM certificate for the CloudFront distribution"
+  type        = string
+}
