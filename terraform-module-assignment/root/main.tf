@@ -38,6 +38,11 @@ module "route53" {
   cloudfront_domain_name = module.cloudfront.cloudfront_distribution_domain
 }
 
+module "local" {
+  source       = "./modules/local"
+  name_servers = module.route53.name_servers
+}
+
 module "acm" {
   source          = "./modules/acm"
   domain_name     = "login.${var.domain_name}"

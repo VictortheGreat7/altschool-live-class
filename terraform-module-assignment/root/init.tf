@@ -4,6 +4,9 @@ terraform {
     aws = {
       source = "hashicorp/aws"
     }
+    local = {
+      source = "hashicorp/local"
+    }
   }
 }
 
