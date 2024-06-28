@@ -18,12 +18,12 @@ resource "aws_cloudfront_distribution" "this" {
       origin_access_identity = aws_cloudfront_origin_access_identity.this.cloudfront_access_identity_path
     }
 
-    custom_origin_config {
-      http_port              = 80           # HTTP port for the custom origin.
-      https_port             = 443          # HTTPS port for the custom origin.
-      origin_protocol_policy = "https-only" # Protocol policy for the origin.
-      origin_ssl_protocols   = ["TLSv1.2"]  # Supported SSL protocols.
-    }
+    # custom_origin_config {
+    #   http_port              = 80           # HTTP port for the custom origin.
+    #   https_port             = 443          # HTTPS port for the custom origin.
+    #   origin_protocol_policy = "https-only" # Protocol policy for the origin.
+    #   origin_ssl_protocols   = ["TLSv1.2"]  # Supported SSL protocols.
+    # }
   }
 
   # Additional origin configuration for API Gateway (commented out).
