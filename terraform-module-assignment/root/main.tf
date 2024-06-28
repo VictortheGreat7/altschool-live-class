@@ -8,7 +8,7 @@ module "s3_bucket" {
   source      = "./modules/s3_bucket"                       # Path to the S3 bucket module.
   bucket_name = var.bucket_name                             # Name of the S3 bucket to be created.
   account_id  = data.aws_caller_identity.current.account_id # AWS account ID of the current user.
-  # origin_access_identity = module.cloudfront.origin_access_identity  # (Optional) Origin access identity for CloudFront.
+  origin_access_identity = module.cloudfront.origin_access_identity  # (Optional) Origin access identity for CloudFront.
 }
 
 # Define the IAM module, which sets up the necessary IAM roles and policies for accessing the S3 bucket.

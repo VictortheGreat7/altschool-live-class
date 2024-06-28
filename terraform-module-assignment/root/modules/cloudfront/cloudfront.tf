@@ -14,9 +14,9 @@ resource "aws_cloudfront_distribution" "this" {
     origin_id   = var.s3_bucket_origin_id   # Origin ID for the S3 bucket.
 
     # Configuration for S3 origin access identity (commented out).
-    # s3_origin_config {
-    #   origin_access_identity = aws_cloudfront_origin_access_identity.this.cloudfront_access_identity_path
-    # }
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.this.cloudfront_access_identity_path
+    }
 
     custom_origin_config {
       http_port              = 80           # HTTP port for the custom origin.

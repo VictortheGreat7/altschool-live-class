@@ -17,8 +17,8 @@ Before you begin, ensure you have the following installed:
 1. **Clone the Repository**:
 
    ```sh
-   git clone <repository_url>
-   cd <repository_directory>
+   git clone https://github.com/VictortheGreat7/altschool-live-class.git
+   cd altschool-live-class/terraform-module-assignment/root/
    ```
 
 2. **Create `terraform.tfvars`**:
