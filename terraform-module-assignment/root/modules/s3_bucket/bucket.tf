@@ -57,12 +57,12 @@ resource "aws_s3_bucket_policy" "this" {
     Statement = [
       {
         Effect = "Allow" # Allow access to the S3 bucket.
-        Principal = {
-          AWS = var.origin_access_identity # Reference to the CloudFront origin access identity.
-        }
         # Principal = {
-        #   AWS = "arn:aws:iam::${var.account_id}:role/cloudfront-s3-access-role" # Reference to an IAM role.
+        #   AWS = var.origin_access_identity # Reference to the CloudFront origin access identity.
         # }
+        Principal = {
+          AWS = "arn:aws:iam::${var.account_id}:role/cloudfront-s3-access-role" # Reference to an IAM role.
+        }
         Action   = "s3:GetObject"                # Allow the GetObject action.
         Resource = "${aws_s3_bucket.this.arn}/*" # Apply the policy to all objects in the S3 bucket.
       }
